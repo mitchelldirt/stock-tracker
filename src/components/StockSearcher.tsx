@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import useStockData from "../hooks/useStockData";
 
 type Input = {
   stock: string;
