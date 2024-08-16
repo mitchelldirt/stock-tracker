@@ -8,9 +8,12 @@ type Stock = {
 export async function getStock(symbol: string): Promise<Stock> {
   const stock = await fetch(
     `https://api.finage.co.uk/last/stock/${symbol}?apikey=${import.meta.env.VITE_FINAGE_API_KEY}`,
+    { mode: "no-cors" },
   );
 
   const stockData = await stock.json();
+
+  console.log(stockData);
 
   // validate the type of the data
   if (!isStock(stockData)) {

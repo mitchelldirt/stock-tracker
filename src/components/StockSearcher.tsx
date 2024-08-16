@@ -1,7 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
-import useStockData from "../hooks/useStockData";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getStock } from "../queries/stocks";
 
 type Input = {
   stock: string;
@@ -21,8 +22,18 @@ export default function StockSearcher() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: (symbol: string) => getStock(symbol),
+    onSuccess: (data) => {
+      // Handle successful query
+      console.log(data);
+      // Optionally invalidate and refetch
+      // queryClient.invalidateQueries({ queryKey: ["stock"] });
+    },
+  });
+
   const onSubmit: SubmitHandler<Input> = (data) => {
-    console.log(data);
+    mutation.mutate(data.stock);
   };
 
   const stockValue = watch("stock");
